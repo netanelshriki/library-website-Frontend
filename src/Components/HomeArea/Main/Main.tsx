@@ -1,6 +1,5 @@
 import { Grid } from "@material-ui/core";
 import Cards from "../Cards/Cards";
-import PostrCard from "../PostrCard/PostrCard";
 import "./Main.css";
 
 function Main(): JSX.Element {
@@ -9,7 +8,6 @@ function Main(): JSX.Element {
 			<Cards/>
             <br/>
             <Grid>
-                <PostrCard/>
             </Grid>
         </div>
     );
