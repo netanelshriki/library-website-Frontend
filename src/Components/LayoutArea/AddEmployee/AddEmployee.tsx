@@ -1,10 +1,13 @@
 import {
   Button,
   Card,
+  CardContent,
   FormControl,
+  FormHelperText,
   InputLabel,
   Select,
   TextField,
+  Typography,
 } from "@material-ui/core";
 import axios from "axios";
 import { useForm } from "react-hook-form";
@@ -14,7 +17,7 @@ import UserModel from "../../../UserModel/UserModel";
 import { EmployeesAddedAction } from "../../Redux/EmployeesSatate";
 import Library from "../../Redux/Library";
 import "./AddEmployee.css";
-import { Alert } from '@material-ui/lab';
+import { Alert } from "@material-ui/lab";
 
 function AddEmployee(): JSX.Element {
   const {
@@ -22,6 +25,7 @@ function AddEmployee(): JSX.Element {
     handleSubmit,
     formState: { errors },
   } = useForm<UserModel>();
+  const history = useHistory();
 
   async function send(user: UserModel) {
     try {
@@ -45,7 +49,9 @@ function AddEmployee(): JSX.Element {
       const added = post.data;
       Library.dispatch(EmployeesAddedAction(added));
       // store.dispatch(catsAddedAction(added)); //With Redux
+
       notify.success("Employee " + user.name + " created!");
+      history.push("/employees");
     } catch (err) {
       console.log(err.message);
     }
@@ -54,52 +60,75 @@ function AddEmployee(): JSX.Element {
   return (
     <div className="AddEmployee">
       <Card>
-        <h1>Add new Employee</h1>
-        <form onSubmit={handleSubmit(send)}>
-          <TextField
-            id="outlined-basic"
-            label="name"
-            variant="outlined"
-            type="text"
-            {...register("name", {
-              required: {
+        <CardContent>
+          <Typography>Add new Employee</Typography>
+          <br />
+          <form onSubmit={handleSubmit(send)}>
+            <TextField
+              id="outlined-basic"
+              label="name"
+              variant="outlined"
+              type="text"
+              {...register("name", {
+                required: {
                   value: true,
-                  message: "your name is required"},
-              maxLength: {
+                  message: "your name is required",
+                },
+                maxLength: {
                   value: 30,
-                  message: "your name can not be greater than 30"},
-              minLength: {
-                  value: 3,
-                  message: "your name can not be less than 3 characters"}
-            })}
-          />
+                  message: "your name can not be greater than 30",
+                },
+                minLength: {
+                  value: 2,
+                  message: "your name can not be less than 2 chars",
+                },
+              })}
+            />
 
-          <br />
-        
-          <span className="alert">{errors.name?.message}</span>
-          <br />
-          <TextField
-            id="outlined-basic"
-            label="email"
-            variant="outlined"
-            type="email"
-            {...register("email")}
-          />
-          <br />
-          <br />
-          <TextField
-            id="outlined-basic"
-            label="password"
-            variant="outlined"
-            type="password"
-            {...register("password")}
-          />
-          <br />
-          <br />
-          <Button type="submit" variant="contained" color="primary">
-            Add
-          </Button>
-        </form>
+            <br />
+            <FormHelperText error={true}>{errors.name?.message}</FormHelperText>
+            <br />
+
+            <TextField
+              id="outlined-basic"
+              label="email"
+              variant="outlined"
+              type="email"
+              {...register("email", {
+                required: {
+                  value: true,
+                  message: "your email is required",
+                },
+                pattern: {
+                  value: /^\S+@\S+$/i,
+                  message: "your email required",
+                },
+              })}
+            />
+            <br />
+            <FormHelperText error={true}>{errors.email?.message}</FormHelperText>
+            <br />
+            <TextField
+              id="outlined-basic"
+              label="password"
+              variant="outlined"
+              type="password"
+              {...register("password", {
+                minLength: {
+                  value: 5,
+                  message: "your password can not be less than 5 chars",
+                },
+              })}
+            />
+            <br />
+            <FormHelperText error={true}>{errors.password?.message}</FormHelperText>
+
+            <br />
+            <Button type="submit" variant="contained" color="primary">
+              Add
+            </Button>
+          </form>
+        </CardContent>
       </Card>
     </div>
   );

@@ -1,5 +1,6 @@
 import {
   Badge,
+  Button,
   Divider,
   IconButton,
   makeStyles,
@@ -10,10 +11,14 @@ import "./Header.css";
 import MenuIcon from "@material-ui/icons/Menu";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
+import { useSpring, animated, config } from 'react-spring'
+import SideBar from "../SideBar/SideBar";
+import { NavLink, useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme)=>({
     title:{
         flexGrow: 1,
+
     },
     tagline:{
         fontSize: 20,
@@ -26,15 +31,36 @@ const useStyles = makeStyles((theme)=>({
 function Header(): JSX.Element {
 
 const classes = useStyles();
+const history = useHistory();
+const props = useSpring({
+    to: { opacity: 1 },
+    from: { opacity: 0 },
+    reset: true,
+    delay: 200,
+    config: config.gentle,
+  });
 
   return (
     <>
       <Toolbar>
+          <SideBar>
         <IconButton color="inherit">
           <MenuIcon />
         </IconButton>
+        </SideBar> 
 
-        <Typography variant="h5" className={classes.title}>Library</Typography>
+        <Typography variant="h5" className={classes.title} >
+       
+        <animated.h5 style={props}>
+     <Button onClick={()=>history.push("/home")}>
+          Library
+                     
+            </Button>
+
+            </animated.h5>
+            </Typography>
+
+           
         <IconButton color="inherit">
           <Badge badgeContent={4} color="secondary">
             <NotificationsIcon />
@@ -47,7 +73,7 @@ const classes = useStyles();
         </IconButton>
       </Toolbar>
       <Divider />
-      
+
       <Toolbar className={classes.tagline}>welcome to the library</Toolbar>
     </>
   );
