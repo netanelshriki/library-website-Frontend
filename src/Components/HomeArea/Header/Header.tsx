@@ -43,11 +43,13 @@ const props = useSpring({
   return (
     <>
       <Toolbar>
-          <SideBar>
+       
         <IconButton color="inherit">
+        <SideBar>
           <MenuIcon />
+          </SideBar> 
+
         </IconButton>
-        </SideBar> 
 
         <Typography variant="h5" className={classes.title} >
        

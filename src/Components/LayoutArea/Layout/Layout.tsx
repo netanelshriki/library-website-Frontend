@@ -17,9 +17,13 @@ import DeleteIcon from "@material-ui/icons/Delete";
 
 import "./Layout.css";
 import notify from "../../../Services/Notifilcation";
+import { useHistory } from "react-router-dom";
 
 function Layout() {
   const [gets, setGet] = useState<UserModel[]>([]);
+  const history = useHistory();
+
+
 
   useEffect(() => {
     const axiosGet = async () => {
@@ -41,19 +45,33 @@ function Layout() {
        });
    };
 
+   function updatePost(id) {
+     console.log(id);
+history.push("/editempl/"+id);
+const result = 
+
+    axios
+      .put<any>( "http://localhost:8080/lib/employees/update",)
+      .then(() => {
+        notify.success("Employee deleted!");
+   setGet([]);
+      });
+  };
+
+
 
   const res = gets.map((get) => {
     return (
       <TableBody>
         <TableRow>
-          <TableCell>{get.id} </TableCell>
+          <TableCell >{get.id} </TableCell>
           <TableCell align="right">{get.name}</TableCell>
           <TableCell align="right">{get.email}</TableCell>
           <TableCell align="right">{get.password}</TableCell>
           <TableCell align="right">{get.clientType}</TableCell>
           <TableCell align="right">
             <Button>
-              <CreateIcon />
+              <CreateIcon onClick={() =>updatePost(get.id)}/>
             </Button>
             <Button >
               <DeleteIcon onClick={()=>deletePost(get.id)}/>
