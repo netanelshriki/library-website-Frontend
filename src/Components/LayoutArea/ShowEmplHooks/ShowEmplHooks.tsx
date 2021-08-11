@@ -58,7 +58,7 @@ function ShowEmplHooks(): JSX.Element {
   
     return (
       <div className="Layout">
-        {/* <TableContainer component={Paper}> */}
+      
         <Table className="Table" aria-label="simple table">
           <TableHead>
             <TableRow>
@@ -71,9 +71,9 @@ function ShowEmplHooks(): JSX.Element {
             </TableRow>
           </TableHead>
   
-          {/* {gets && res} */}
+       
         </Table>
-        {/* { // <Button color="secondary" onClick={deleteEmp}>{count}</Button> */}
+        
       
     </div>
   );

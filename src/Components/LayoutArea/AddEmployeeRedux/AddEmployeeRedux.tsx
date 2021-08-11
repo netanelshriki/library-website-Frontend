@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { useHistory } from "react-router-dom";
 import UserModel from "../../../UserModel/UserModel";
 import { EmployeesActionType, EmployeesAddedAction } from "../../Redux/EmployeesSatate";
-import Library from "../../Redux/Library";
+import Library from "../../Redux/Store";
 
 function AddEmployeeRedux(): JSX.Element {
   // const obj = useForm<CatModel>();

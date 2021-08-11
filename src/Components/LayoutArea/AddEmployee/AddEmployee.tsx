@@ -5,6 +5,7 @@ import {
   FormControl,
   FormHelperText,
   InputLabel,
+  makeStyles,
   Select,
   TextField,
   Typography,
@@ -15,25 +16,45 @@ import { useHistory } from "react-router-dom";
 import notify from "../../../Services/Notifilcation";
 import UserModel from "../../../UserModel/UserModel";
 import { EmployeesAddedAction } from "../../Redux/EmployeesSatate";
-import Library from "../../Redux/Library";
+import Library from "../../Redux/Store";
 import "./AddEmployee.css";
 import { Alert } from "@material-ui/lab";
+import Papering from "../../HomeArea/Papering/Papering";
+import store from "../../Redux/Store";
+import { useEffect } from "react";
+import tokenAxios from "../../../Services/interceptor";
+
+const useStyles = makeStyles((theme)=>({
+root: {
+  minWidth: 275,
+},
+
+pos: {
+  marginBottom: 12,
+},
+
+
+}));
 
 function AddEmployee(): JSX.Element {
+
+  useEffect(()=>{
+    if(!store.getState().authState.user){
+        notify.error("please login");
+        history.push("/login")
+    }
+})
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<UserModel>();
   const history = useHistory();
+  const classes = useStyles();
 
   async function send(user: UserModel) {
     try {
-      // const formData =new FormData();
-      //  formData.append("Name", 'user.name');
-      //  formData.append("Email", 'user.email');
-      //  formData.append("Password", 'user.password');
-      //  formData.append("ClientType","EMPLOYEE");
       const employeesend = {
         name: user.name,
         email: user.email,
@@ -41,7 +62,7 @@ function AddEmployee(): JSX.Element {
         clientType: "EMPLOYEE",
       };
 
-      const post = await axios.post<UserModel>(
+      const post = await tokenAxios.post<UserModel>(
         "http://localhost:8080/lib/register",
         employeesend
       );
@@ -58,10 +79,13 @@ function AddEmployee(): JSX.Element {
   }
 
   return (
-    <div className="AddEmployee">
-      <Card>
+  
+
+   
+    <div>
+      <Card  className={classes.root} square  elevation={125}>
         <CardContent>
-          <Typography>Add new Employee</Typography>
+          <Typography className={classes.pos}>Add new Employee</Typography>
           <br />
           <form onSubmit={handleSubmit(send)}>
             <TextField
@@ -129,8 +153,11 @@ function AddEmployee(): JSX.Element {
             </Button>
           </form>
         </CardContent>
+        
+                <Button onClick={()=>history.goBack()}variant="contained" color="secondary">back</Button>
       </Card>
     </div>
+ 
   );
 }
 

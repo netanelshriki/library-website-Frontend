@@ -18,6 +18,8 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import "./Layout.css";
 import notify from "../../../Services/Notifilcation";
 import { useHistory } from "react-router-dom";
+import store from "../../Redux/Store";
+import tokenAxios from "../../../Services/interceptor";
 
 function Layout() {
   const [gets, setGet] = useState<UserModel[]>([]);
@@ -26,8 +28,12 @@ function Layout() {
 
 
   useEffect(() => {
+    if(!store.getState().authState.user){
+      notify.error("please login");
+      history.push("/login")
+  }
     const axiosGet = async () => {
-      const response = await axios.get<UserModel[]>(
+      const response = await tokenAxios.get<UserModel[]>(
         "http://localhost:8080/lib/employees"
       );
       setGet(response.data);
@@ -84,7 +90,7 @@ const result =
 
   return (
     <div className="Layout">
-      {/* <TableContainer component={Paper}> */}
+    
       <Table className="Table" aria-label="simple table">
         <TableHead>
           <TableRow>
@@ -99,7 +105,7 @@ const result =
 
         {gets && res}
       </Table>
-      {/* { // <Button color="secondary" onClick={deleteEmp}>{count}</Button> */}
+    
     
     </div>
   );

@@ -1,8 +1,8 @@
 import axios from "axios";
 import { Component } from "react";
 import UserModel from "../../../UserModel/UserModel";
-import Library from "../../Redux/Library";
-import store from "../../Redux/Library";
+import Library from "../../Redux/Store";
+import store from "../../Redux/Store";
 import "./Employees.css";
 
 // interface EmployeesProps {
