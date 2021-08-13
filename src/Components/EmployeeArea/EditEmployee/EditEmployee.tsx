@@ -13,12 +13,16 @@ import {
   import { useForm } from "react-hook-form";
   import { RouteComponentProps, useHistory, useParams } from "react-router-dom";
   import notify from "../../../Services/Notifilcation";
-  import { EmployeesAddedAction } from "../../Redux/EmployeesSatate";
+  import { EmployeesAddedAction, EmployeesUpdatedAction } from "../../Redux/EmployeesSatate";
   import Library from "../../Redux/Store";
   import "./EditEmployee.css";
   import { Alert } from "@material-ui/lab";
 import { useEffect, useState } from "react";
 import UserModel from "../../../UserModel/UserModel";
+import store from "../../Redux/Store";
+import Globals from "../../../Services/Globals";
+import Input from '@material-ui/core/Input';
+
   
 interface RouteParam {
   id: string;
@@ -26,33 +30,48 @@ interface RouteParam {
 
 interface EditDetailsProps extends RouteComponentProps<RouteParam> { }
 
+const preEditValues = {
+  name: "user",
+  email: 'user?.email' ,
+    password: 'user?.password' 
+}
+
   function EditEmployee(props:EditDetailsProps): JSX.Element {
-    const {
-      register,
-      handleSubmit,
-      formState: { errors },
-    } = useForm<UserModel>();
+ const { register, handleSubmit, formState: { errors }, } = useForm<UserModel>({
+   defaultValues: preEditValues
+ });
     const history = useHistory();
-    const [gets, setGet] = useState<UserModel>();
+    const currentId = +props.match.params?.id 
+ const [employee, setEmployee] = useState(store.getState().EmployeeState.employees.find((c)=>c.id === +props.match.params?.id ));
+
+ const [client,setClient] = useState(store.getState().authState.user);
 
 
 async function send(user:UserModel) {
-
+  user.id = currentId
   const employeesend = {
-    id: +props.match.params?.id ,
+   
+    id: user?.id,
     name: user?.name ,
     email: user?.email ,
     password: user?.password ,
     clientType: "EMPLOYEE"
   };
-    
-const response = await axios.put<UserModel>( "http://localhost:8080/lib/employees/update",employeesend );
-const updated = response.data;
-console.log(updated);
-//alert('cat has been updated');
-history.push('/employees')
+
+
+// updating DB
+ const response = await axios.put<UserModel>( Globals.urls.employee+"update",employeesend );
+
+ //update global app state
+ store.dispatch(EmployeesUpdatedAction(response.data))
+
+//update local
+setEmployee(store.getState().EmployeeState.employees.find((c)=>c.id === +props.match.params?.id) );
+
+history.push('/employees');
 
 };
+
 
 
   
@@ -68,7 +87,9 @@ history.push('/employees')
                 id="outlined-basic"
                 label="name"
                 variant="outlined"
+                defaultValue={client?.name}
                 type="text"
+                name="name"
                 {...register("name" , {
                   required: {
                     value: true,
@@ -93,6 +114,7 @@ history.push('/employees')
                 id="outlined-basic"
                 label="email"
                 variant="outlined"
+                defaultValue={client?.email}
                 type="email"
                 {...register("email", {
                   required: {
@@ -112,6 +134,7 @@ history.push('/employees')
                 id="outlined-basic"
                 label="password"
                 variant="outlined"
+                 defaultValue={client?.email}
                 type="password"
                 {...register("password", {
                   minLength: {
@@ -141,4 +164,8 @@ history.push('/employees')
   }
   
   export default EditEmployee;
+
+function useSelector(arg0: (state: any) => any) {
+  throw new Error("Function not implemented.");
+}
   

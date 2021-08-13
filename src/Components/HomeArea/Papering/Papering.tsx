@@ -1,14 +1,11 @@
 import { Paper } from "@material-ui/core";
-import AddEmployee from "../../LayoutArea/AddEmployee/AddEmployee";
+import AddEmployee from "../../EmployeeArea/AddEmployee/AddEmployee";
 import "./Papering.css";
 
 import React from 'react';
 import { Theme, createStyles, makeStyles } from '@material-ui/core/styles';
 
 
-interface sizedFunction{
-    funct: any;
-}
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({

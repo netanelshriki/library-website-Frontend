@@ -1,11 +1,11 @@
 import React from "react";
 import logo from "./logo.svg";
 import "./App.css";
-import AddEmployee from "./Components/LayoutArea/AddEmployee/AddEmployee";
-import Layout from "./Components/LayoutArea/Layout/Layout";
-import Employees from "./Components/LayoutArea/Employees/Employees";
-import AddEmployeeRedux from "./Components/LayoutArea/AddEmployeeRedux/AddEmployeeRedux";
-import ShowEmplHooks from "./Components/LayoutArea/ShowEmplHooks/ShowEmplHooks";
+import AddEmployee from "./Components/EmployeeArea/AddEmployee/AddEmployee";
+import Layout from "./Components/EmployeeArea/Layout/Layout";
+import Employees from "./Components/Repeat/Employees/Employees";
+import AddEmployeeRedux from "./Components/Repeat/AddEmployeeRedux/AddEmployeeRedux";
+import ShowEmplHooks from "./Components/Repeat/ShowEmplHooks/ShowEmplHooks";
 import { Container, createTheme, ThemeProvider } from "@material-ui/core";
 import Header from "./Components/HomeArea/Header/Header";
 import Main from "./Components/HomeArea/Main/Main";
@@ -19,6 +19,8 @@ function App() {
       type: "dark",
     },
   });
+
+  
 
   return (
     <BrowserRouter>

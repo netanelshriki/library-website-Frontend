@@ -3,7 +3,7 @@ class Globals{
 
 class DevelopmentGlobals extends Globals{
     public urls = {
-        employee:  "http://localhost:8080/lib/employee/",
+        employee:  "http://localhost:8080/lib/employees/",
         borrower: "http://localhost:8080/api/borrower/",
      
     }
@@ -11,7 +11,7 @@ class DevelopmentGlobals extends Globals{
 
 class ProductionGlobals extends Globals{
     public urls = {
-        employee:  "http://localhost:8080/lib/employee/",
+        employee:  "http://localhost:8080/lib/employees/",
         borrower: "http://localhost:8080/api/borrower/",
      
     }

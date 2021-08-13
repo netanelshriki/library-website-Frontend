@@ -57,11 +57,11 @@ export function EmployeesReducer(currentState: EmployeesAppState = new Employees
             newState.employees.push(action.payload);
             break;
         case EmployeesActionType.EmployeesUpdated:
-            //  const idx = newState.cats.filter(c => c.id === action.payload.id);
-            //  newState.cats[idx]=action.payload;    
+              const idx = newState.employees.findIndex(c => c.id === action.payload.id);
+              newState.employees[idx]=action.payload;    
             break
             case EmployeesActionType.EmployeesDeleted:
-                //  const idx = newState.cats.filter(c => c.id === action.payload.id);
+                  newState.employees = newState.employees.filter(e => e.id === action.payload.id);
                  // newState.cats.fil
                 break
     }

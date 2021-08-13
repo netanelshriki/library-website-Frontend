@@ -14,6 +14,8 @@ import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import { useSpring, animated, config } from 'react-spring'
 import SideBar from "../SideBar/SideBar";
 import { NavLink, useHistory } from "react-router-dom";
+import store from "../../Redux/Store";
+import { useEffect, useState } from "react";
 
 const useStyles = makeStyles((theme)=>({
     title:{
@@ -30,6 +32,7 @@ const useStyles = makeStyles((theme)=>({
 
 function Header(): JSX.Element {
 
+
 const classes = useStyles();
 const history = useHistory();
 const props = useSpring({
@@ -38,6 +41,16 @@ const props = useSpring({
     reset: true,
     delay: 200,
     config: config.gentle,
+  });
+
+  const [client,setClient] = useState(store.getState().authState.user);
+ 
+useEffect(()=> {
+    console.log(client);
+        const unsubscribe = store.subscribe(() => {
+        setClient(store.getState().authState.user)
+      return unsubscribe;
+     })
   });
 
   return (
@@ -62,7 +75,15 @@ const props = useSpring({
             </animated.h5>
             </Typography>
 
-           
+         
+             
+             <span>{client ===null ? <span>hello guest</span> :  <span>hello {client?.name}</span> } &nbsp;&nbsp;&nbsp;&nbsp;</span> 
+{client===null ? <span><Button onClick={()=>history.push("/register")}>register</Button>&nbsp;&nbsp;
+<Button onClick={()=>history.push("/login")}>login</Button></span> 
+
+: <Button onClick={()=>history.push("/logout")}>logout</Button>}
+
+     
         <IconButton color="inherit">
           <Badge badgeContent={4} color="secondary">
             <NotificationsIcon />

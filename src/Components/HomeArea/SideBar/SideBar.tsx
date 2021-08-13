@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
@@ -14,7 +14,8 @@ import WorkIcon from '@material-ui/icons/Work';
 import { BrowserRouter as Router,NavLink, Route, Switch, useHistory } from 'react-router-dom';
 import { ButtonBase } from '@material-ui/core';
 
-import AddEmployee from '../../LayoutArea/AddEmployee/AddEmployee';
+import AddEmployee from '../../EmployeeArea/AddEmployee/AddEmployee';
+import store from '../../Redux/Store';
 
 const useStyles = makeStyles({
   list: {
@@ -54,6 +55,16 @@ export default function SideBar({children}) {
   };
   const history = useHistory();
 
+  const[client, setClient] = useState(store.getState().authState.user);
+
+  useEffect(()=> {
+    console.log(client);
+        const unsubscribe = store.subscribe(() => {
+        setClient(store.getState().authState.user)
+      return unsubscribe;
+     })
+  });
+
   const list = (anchor: Anchor) => (
    
     <div
@@ -70,12 +81,22 @@ export default function SideBar({children}) {
       <List>
      
           <ListItem button={true} >
-          <Button onClick={()=> history.push("/employee")} className={classes.btn}>
-            <ListItemIcon> <MailIcon /></ListItemIcon>
-           
-           
-            <ListItemText primary='add employee'/>
-            </Button>
+        {client?.clientType==='EMPLOYEE' ?
+         <Button onClick={()=> history.push("/employee")} className={classes.btn}>
+         <ListItemIcon> <MailIcon /></ListItemIcon>
+       <ListItemText primary='add employee'/>
+         </Button>
+       :
+       <Button onClick={()=> history.push("/check")} className={classes.btn}>
+       <ListItemIcon> <MailIcon /></ListItemIcon>
+     <ListItemText primary='nothing for you'/>
+       </Button>
+        }
+        
+         
+         
+         
+         
           </ListItem>
 
       </List>
@@ -88,11 +109,11 @@ export default function SideBar({children}) {
             <ListItemIcon> <MailIcon /></ListItemIcon>
            
            
-            <ListItemText primary =' employees list' />
+            <ListItemText primary ='employees list' />
             </Button>
           </ListItem>
       </List>
-      <Divider variant="middle" light={true} />
+      {/* <Divider variant="middle" light={true} />
       <List>
       <ListItem button key='WorkIcon'>
             <ListItemIcon> <MailIcon /></ListItemIcon>
@@ -104,14 +125,14 @@ export default function SideBar({children}) {
       <ListItem button key='WorkIcon'>
             <ListItemIcon> <MailIcon /></ListItemIcon>
             <ListItemText primary='add employee' />
-          </ListItem>
-      </List>
+          </ListItem> */}
+      {/* </List> */}
       <Switch>
             <Route path="/home" exact/>
             <Route path="/employee" exact>
            {AddEmployee} 
             </Route>
-           {/* / <Route path="/employees" component={Layout} exact/> */}
+            {/* <Route path="/employees" component={Layout} exact/> */}
             {/* <Redirect from="/" to="/home" exact/> */}
             </Switch>
       </Router>

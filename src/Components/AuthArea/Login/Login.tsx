@@ -24,6 +24,9 @@ import UserLoginModel from "../../../UserModel/UserLoginModel";
 import { loginAction } from "../../Redux/AuthState";
 import store from "../../Redux/Store";
 import tokenAxios from "../../../Services/interceptor";
+import UserAuthModel from "../../../UserModel/UserAuthModel";
+import Box from '@material-ui/core/Box';
+
 
   const useStyles = makeStyles((theme)=>({
     root: {
@@ -33,6 +36,19 @@ import tokenAxios from "../../../Services/interceptor";
     pos: {
       marginBottom: 12,
     },
+    box:{
+marginLeft: '39%',
+maxWidth: '50px',
+marginTop: '70px'
+    },
+    stam:{
+     marginLeft: '39%',
+     marginTop: '30px'
+}, 
+odstam: {
+  marginLeft: '36%',
+  marginTop: ' 20px' 
+},
     
 }));
 
@@ -48,8 +64,9 @@ function Login(): JSX.Element {
 
 async function send(userLogin: UserLoginModel){
     try{
-const response = await tokenAxios.post<UserLoginModel>("http://localhost:8080/lib/login",userLogin);
+const response = await tokenAxios.post<UserAuthModel>("http://localhost:8080/lib/login",userLogin);
 store.dispatch(loginAction(response.data));
+console.log(response.data);
 notify.success("login successful!");
 history.push("/home");
     } catch (err){
@@ -59,6 +76,7 @@ history.push("/home");
 
    
     return (
+      <Box className={classes.box}>
         <div className="Login">
 		
       <Card  className={classes.root} square  elevation={125}>
@@ -102,15 +120,16 @@ history.push("/home");
             <FormHelperText error={true}>{errors.password?.message}</FormHelperText>
 
             <br />
-            <Button type="submit" variant="contained" color="primary" value="Login">
+            <Button type="submit" variant="contained" color="primary" value="Login" className={classes.odstam}>
             Login
             </Button>
           </form>
         </CardContent>
-        
-                <Button onClick={()=>history.push("/home")}variant="contained" color="secondary">back</Button>
+      
+                <Button onClick={()=>history.push("/home")}variant="contained" color="secondary" className={classes.stam}>back</Button>
       </Card>
     </div>
+    </Box>
  
     );
 }

@@ -1,5 +1,6 @@
 import "./Register.css";
 import {
+  Box,
     Button,
     Card,
     CardContent,
@@ -37,6 +38,20 @@ import { registerAction } from "../../Redux/AuthState";
     margin: theme.spacing(1),
     minWidth: 120,
   },
+  box:{
+    marginLeft: '39%',
+    maxWidth: '50px',
+    marginTop: '70px'
+        },
+        stam:{
+         marginLeft: '39%',
+         marginTop: '30px'
+    }, 
+    odstam: {
+      marginLeft: '32%',
+      marginTop: ' 20px', 
+      
+    },
   
   }));
 
@@ -81,7 +96,7 @@ try {
         return (
         
       
-         
+          <Box className={classes.box}>
           <div>
             <Card  className={classes.root}  elevation={125}>
               <CardContent>
@@ -169,7 +184,7 @@ try {
       </FormControl>
                   <br/>
                   <br/>
-                  <Button type="submit" variant="contained" color="primary">
+                  <Button  className={classes.odstam} type="submit" variant="contained" color="primary">
                     Register
                   </Button>
                 </form>
@@ -177,10 +192,10 @@ try {
 
               <br/>
               
-                      <Button onClick={()=>history.goBack()}variant="contained" color="secondary">back</Button>
+                      <Button onClick={()=>history.goBack()}variant="contained" color="secondary" className={classes.stam}>back</Button>
             </Card>
           </div>
-       
+          </Box>
         );
       }
       

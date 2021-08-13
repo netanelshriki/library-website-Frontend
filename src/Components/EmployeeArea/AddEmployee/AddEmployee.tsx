@@ -68,8 +68,7 @@ function AddEmployee(): JSX.Element {
       );
 
       const added = post.data;
-      Library.dispatch(EmployeesAddedAction(added));
-      // store.dispatch(catsAddedAction(added)); //With Redux
+      store.dispatch(EmployeesAddedAction(added));
 
       notify.success("Employee " + user.name + " created!");
       history.push("/employees");
