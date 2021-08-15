@@ -1,9 +1,12 @@
 import {
   Badge,
   Button,
+  createMuiTheme,
+  CssBaseline,
   Divider,
   IconButton,
   makeStyles,
+  ThemeProvider,
   Toolbar,
   Typography,
 } from "@material-ui/core";
@@ -16,6 +19,7 @@ import SideBar from "../SideBar/SideBar";
 import { NavLink, useHistory } from "react-router-dom";
 import store from "../../Redux/Store";
 import { useEffect, useState } from "react";
+import { Switch } from "@material-ui/core";
 
 const useStyles = makeStyles((theme)=>({
     title:{
@@ -53,7 +57,9 @@ useEffect(()=> {
      })
   });
 
+
   return (
+    
     <>
       <Toolbar>
        
@@ -74,9 +80,8 @@ useEffect(()=> {
 
             </animated.h5>
             </Typography>
+          
 
-         
-             
              <span>{client ===null ? <span>hello guest</span> :  <span>hello {client?.name}</span> } &nbsp;&nbsp;&nbsp;&nbsp;</span> 
 {client===null ? <span><Button onClick={()=>history.push("/register")}>register</Button>&nbsp;&nbsp;
 <Button onClick={()=>history.push("/login")}>login</Button></span> 
@@ -98,7 +103,8 @@ useEffect(()=> {
       <Divider />
 
       <Toolbar className={classes.tagline}>welcome to the library</Toolbar>
-    </>
+      </>
+   
   );
 }
 
